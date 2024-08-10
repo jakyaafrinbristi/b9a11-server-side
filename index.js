@@ -57,6 +57,14 @@ async function run() {
       res.send(result)
     })
 
+    // manage service for specific email by get data
+    app.get('/services/:email',async(req,res)=>{
+      const email =req.params.email;
+      const query ={'serviceProvider.email': email }
+      const result=await serviceCollection.find(query).toArray();
+      res.send(result)
+   })
+
 
 
     await client.db("admin").command({ ping: 1 });
