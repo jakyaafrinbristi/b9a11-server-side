@@ -64,6 +64,15 @@ async function run() {
       const result=await serviceCollection.find(query).toArray();
       res.send(result)
    })
+  //  delete service for specific 
+  app.delete('/service/:id',async(req,res)=>{
+    const id =req.params.id;
+    const query ={ _id: new ObjectId(id) }
+    const result = await serviceCollection.deleteOne(query);
+    res.send(result)
+
+  })
+
 
 
 
