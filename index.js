@@ -33,6 +33,8 @@ async function run() {
     // await client.connect();
     // Send a ping to confirm a successful connection
     const serviceCollection =client.db('BeautyService').collection('service')
+
+    const bookingCollection=client.db('BeautyService').collection('booking')
     // get all service data from mongo
     app.get('/service',async(req,res)=>{
       const result=await serviceCollection.find().toArray()
@@ -54,6 +56,13 @@ async function run() {
       // console.log(serviceData)
       // return
       const result = await serviceCollection.insertOne(serviceData)
+      res.send(result)
+    })
+
+    // post all booking data in db
+    app.post('/booking',async(req,res)=>{
+      const bookingData = req.body;
+      const result = await bookingCollection.insertOne(bookingData)
       res.send(result)
     })
 
