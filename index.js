@@ -35,13 +35,13 @@ async function run() {
     const serviceCollection =client.db('BeautyService').collection('service')
 
     const bookingCollection=client.db('BeautyService').collection('booking')
-    // get all service data from mongo
+    // get all service data from database
     app.get('/service',async(req,res)=>{
       const result=await serviceCollection.find().toArray()
       res.send(result)
     })
 
-    // get single data from mongo
+    // get single data from database
     app.get('/service/:id',async(req,res)=>{
       const id =req.params.id;
       const query ={_id : new ObjectId(id)}
@@ -59,10 +59,15 @@ async function run() {
       res.send(result)
     })
 
-    // post all booking data in db
+    // post all booking data in db in another collection
     app.post('/booking',async(req,res)=>{
       const bookingData = req.body;
       const result = await bookingCollection.insertOne(bookingData)
+      res.send(result)
+    })
+    // get all booking data from database in another collection
+    app.get('/booking',async(req,res)=>{
+      const result=await bookingCollection.find().toArray()
       res.send(result)
     })
 
