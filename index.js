@@ -71,6 +71,26 @@ async function run() {
       res.send(result)
     })
 
+
+    
+    // get all service-to-do from db for service provider
+    app.get('/booking/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = {  'serviceProvider.email': email}
+      const result = await bookingCollection.find(query).toArray()
+      res.send(result)
+    })
+    app.patch('/booking/:id',async (req,res)=>{
+      const id = req.params.id;
+      const status = req.body;
+      const query = { _id: new ObjectId(id)}
+      const updateDoc = {
+        $set:status,
+      }
+      const result = await bookingCollection.updateOne(query,updateDoc)
+      res.send(result)
+    })
+
     // manage service for specific email by get data
     app.get('/services/:email',async(req,res)=>{
       const email =req.params.email;
