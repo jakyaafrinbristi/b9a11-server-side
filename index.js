@@ -70,6 +70,19 @@ async function run() {
       const result=await bookingCollection.find().toArray()
       res.send(result)
     })
+    // get all service data from db for pagination
+    app.get('/show-all',async(req,res)=>{
+      const size =parseInt(req.query.size)
+      const page =parseInt(req.query.page) - 1
+      console.log(size,page)
+      const result=await serviceCollection.find().skip(page*size).limit(size).toArray()
+      res.send(result)
+    })
+    // get all service data from database for count
+    app.get('/service-count',async(req,res)=>{
+      const count=await serviceCollection.countDocuments()
+      res.send({count})
+    })
 
 
     
