@@ -74,13 +74,24 @@ async function run() {
     app.get('/show-all',async(req,res)=>{
       const size =parseInt(req.query.size)
       const page =parseInt(req.query.page) - 1
-      console.log(size,page)
-      const result=await serviceCollection.find().skip(page*size).limit(size).toArray()
+      const search = req.query.search
+      // console.log(size,page)
+      let query ={
+        service_name: { $regex: search, $options: 'i' },
+      }
+
+
+      const result=await serviceCollection.find(query).skip(page*size).limit(size).toArray()
       res.send(result)
     })
     // get all service data from database for count
     app.get('/service-count',async(req,res)=>{
-      const count=await serviceCollection.countDocuments()
+      const search = req.query.search
+      // console.log(size,page)
+      let query ={
+        service_name: { $regex: search, $options: 'i' },
+      }
+      const count=await serviceCollection.countDocuments(query)
       res.send({count})
     })
 
